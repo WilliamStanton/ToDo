@@ -1,0 +1,88 @@
+html, body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+button {
+    border-radius: 6px 0;
+    border: none;
+    background-color: indianred;
+    color: white;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 18px;
+    padding: 12px;
+    cursor: pointer;
+    width: max-content
+}
+
+dialog {
+    border-radius: 12px 0;
+    border: 1px solid indianred;
+    background-color: whitesmoke;
+}
+
+a, a:active, a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.app {
+    background-color: whitesmoke;
+    width: 100%
+}
+
+.app > div {
+    /*margin: 4px 6px;*/
+    padding: 12px;
+}
+
+.app .title {
+    background-color: indianred;
+    color: whitesmoke;
+    padding: 12px;
+    text-align: center;
+}
+
+
+.app .form-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.app .list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.app .list-container h1 {
+    margin: 4px 0;
+}
+
+.app .list-container .list-item {
+    border-left: 2px solid indianred;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    background-color: lightgrey;
+    padding: 0 8px;
+}
+
+.app .list-container .list-item h3 {
+    cursor: pointer
+}
+
+.app .list-container .list-item input {
+    width: 25px;
+    height: 25px;
+    background-color: dodgerblue
+}
+

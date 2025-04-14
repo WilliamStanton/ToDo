@@ -1,0 +1,90 @@
+{% extends "main.html" %}
+{% load static %}
+{% block TITLE %}Home{% endblock %}
+{% block DESCRIPTION %}Home page for to-do app{% endblock %}
+
+{% block APP_TITLE %}Your To-do List{% endblock %}
+{% block APP_CONTENT %}
+    <!-- Incomplete Task List -->
+    <div class="list-container">
+        <h1 id="incomplete-title">Incomplete Tasks</h1>
+        <!-- Load all incomplete tasks -->
+        {% for v in task_list %}
+            {% if v.completed == False %}
+            <div class="list-item">
+                <input type="checkbox" id="{{ v.id }}">
+                <a href="/edit/{{ v.id }}"><h3>{{ v.name }}</h3></a>
+            </div>
+            {% endif %}
+        {% endfor %}
+        <button id="add-task-btn">Add Task</button>
+        <dialog id="add-task-dialog">
+            <h1>Add a Task</h1>
+            <form method="post" id="add-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-btns">
+                    <button type="submit">Add Task</button>
+                    <button id="add-task-exit">Exit</button>
+                </div>
+            </form>
+        </dialog>
+    </div>
+
+    <!-- Complete Task List -->
+    <div class="list-container">
+        <h1 id="complete-title">Completed Tasks</h1>
+        <!-- Load all complete tasks -->
+        {% for v in task_list %}
+            {% if v.completed == True %}
+            <div class="list-item">
+                <input type="checkbox" id="{{ v.id }}" checked>
+                <a href="/edit/{{ v.id }}"><h3>{{ v.name }}</h3></a>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block APP_SCRIPT %}
+    <script>
+        const taskBtn = document.getElementById('add-task-btn');
+        const taskExit = document.getElementById('add-task-exit');
+        const taskDialog = document.getElementById('add-task-dialog');
+        const incompleteTitle = document.getElementById('incomplete-title')
+        const completeTitle = document.getElementById('complete-title')
+
+        // handle task-btn click
+        taskBtn.addEventListener('click', () => {
+            taskDialog.showModal()
+        })
+
+        // handle exit-btn click
+        taskExit.addEventListener('click', () => {
+            taskDialog.close();
+        });
+
+        // add task status update
+        let inputs = document.getElementsByTagName('input');
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].type === 'checkbox') {
+                inputs[i].addEventListener('change', (e) => {
+                    let data = new FormData();
+                    data.append('name', e.target.parentElement.getElementsByTagName('h3')[0].innerHTML);
+                    data.append('completed', e.target.checked)
+                    data.append('csrfmiddlewaretoken', document.getElementById('add-form').getElementsByTagName('input')[0].value)
+                    fetch('edit/' + e.target.id, {
+                        method: 'POST',
+                        body: data,
+                        credentials: 'same-origin'
+                    })
+                    .then(() => location.href = location.href)
+                })
+            }
+        }
+
+        // set title counts
+        incompleteTitle.innerText += ": " + document.getElementsByClassName('list-container')[0].getElementsByClassName('list-item').length
+        completeTitle.innerText += ": " + document.getElementsByClassName('list-container')[1].getElementsByClassName('list-item').length
+    </script>
+{% endblock %}

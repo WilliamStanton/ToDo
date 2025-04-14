@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do App - {% block TITLE %}Default Title{% endblock %}</title>
+    <meta name="description" content="{% block DESCRIPTION %}Default Description{% endblock %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <div class="app">
+        <div class="title">
+            <h1>{% block APP_TITLE %}Default Title{% endblock %}</h1>
+        </div>
+
+        {% block APP_CONTENT %}{% endblock %}
+    </div>
+</body>
+
+{% block APP_SCRIPT %}{% endblock %}
+</html>

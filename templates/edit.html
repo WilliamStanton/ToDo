@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% load static %}
+{% block TITLE %}Editing {{ task.name }}{% endblock %}
+{% block DESCRIPTION %}Editing item{% endblock %}
+
+{% block APP_TITLE %}Editing "{{ task.name }}"{% endblock %}
+{% block APP_CONTENT %}
+    <div>
+        <!-- Handles updating task -->
+        <form method="post" id="edit-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-btns">
+                <button type="submit">Update Task</button>
+                <button type="button" id="delete-btn">Delete Task</button>
+            </div>
+        </form>
+
+        <!-- Handles deletion of task -->
+        <form method="post" action="/delete/{{ task.id }}" id="delete-form">
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock APP_CONTENT %}
+
+{% block APP_SCRIPT %}
+    <script>
+        document.getElementById('delete-btn').addEventListener('click', () => {
+            document.getElementById('delete-form').submit();
+        })
+    </script>
+{% endblock %}
